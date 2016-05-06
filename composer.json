@@ -1,0 +1,23 @@
+{
+    "name": "foreverglory/oauth-bundle",
+    "type": "symfony-bundle",
+    "description": "Symfony OAuth",
+    "keywords": ["symfony", "bundle", "user", "oauth"],
+    "homepage": "http://foreverglory.me",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "ForeverGlory",
+            "email": "foreverglory@qq.com",
+            "homepage": "http://foreverglory.me"
+        }
+    ],
+    "autoload": {
+        "psr-4": {"Glory\\Bundle\\OAuthBundle\\": ""}
+    },
+    "minimum-stability": "dev",
+    "require": {
+    },
+    "require-dev": {
+    }
+}
