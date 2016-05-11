@@ -1,4 +1,12 @@
+parameters:
+    glory_oauth.http_client.class: Buzz\Client\Curl
+    glory_oauth.storage.session.class: HWI\Bundle\OAuthBundle\OAuth\RequestDataStorage\SessionStorage
+
 services:
-#    glory_o_auth.example:
-#        class: Glory\Bundle\OAuthBundle\Example
-#        arguments: ["@service_id", "plain_value", %parameter%]
+    glory_oauth.http_client:
+        class: %glory_oauth.http_client.class%
+    glory_oauth.storage.session:
+        class: %glory_oauth.storage.session.class%
+        public: false
+        arguments: [@session]
+
