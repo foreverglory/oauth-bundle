@@ -1,7 +1,7 @@
 parameters:
     glory_oauth.http_client.class: Buzz\Client\Curl
     glory_oauth.storage.session.class: HWI\Bundle\OAuthBundle\OAuth\RequestDataStorage\SessionStorage
-    glory_oauth.ownermap.class: Glory\Bundle\OAuthBundle\OAuth\Owner\OwnerMap
+    glory_oauth.ownermap.class: Glory\Bundle\OAuthBundle\OAuth\OwnerMap
 
 services:
     glory_oauth.http_client:

@@ -6,7 +6,7 @@
  * For the full copyright and license information, please view the LICENSE
  */
 
-namespace Glory\Bundle\OAuthBundle\OAuth\Owner;
+namespace Glory\Bundle\OAuthBundle\OAuth;
 
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
