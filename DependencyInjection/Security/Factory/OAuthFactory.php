@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * (c) ForeverGlory <http://foreverglory.me/>
+ * 
+ * For the full copyright and license information, please view the LICENSE
+ */
+
 namespace Glory\Bundle\OAuthBundle\DependencyInjection\Security\Factory;
 
 use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\AbstractFactory;
@@ -9,29 +15,18 @@ use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\DependencyInjection\Parameter;
 use Symfony\Component\DependencyInjection\Reference;
 
-
+/**
+ * OAuthFactory
+ * 
+ * @author ForeverGlory <foreverglory@qq.com>
+ */
 class OAuthFactory extends AbstractFactory
 {
-    protected $options = array(
-        'check_path' => '/connect/{service}/callback',
-        'use_forward' => false,
-        'require_previous_session' => true,
-    );
 
-    protected $defaultSuccessHandlerOptions = array(
-        'always_use_default_target_path' => false,
-        'default_target_path' => '/',
-        'login_path' => '/login',
-        'target_path_parameter' => '_target_path',
-        'use_referer' => false,
-    );
-
-    protected $defaultFailureHandlerOptions = array(
-        'failure_path' => null,
-        'failure_forward' => false,
-        'login_path' => '/login',
-        'failure_path_parameter' => '_failure_path',
-    );
+    public function __construct()
+    {
+        $this->addOption('check_path', '/connect/{service}/callback');
+    }
 
     /**
      * {@inheritDoc}
@@ -58,44 +53,16 @@ class OAuthFactory extends AbstractFactory
     }
 
     /**
-     * Creates a resource owner map for the given configuration.
-     *
-     * @param ContainerBuilder $container Container to build for
-     * @param string           $id        Firewall id
-     * @param array            $config    Configuration
-     */
-    protected function createResourceOwnerMap(ContainerBuilder $container, $id, array $config)
-    {
-        $resourceOwnersMap = array();
-        //todo: 应该是直接从 glory_oauth 配置中，取出
-    }
-
-    /**
-     * Gets a reference to the resource owner map.
-     *
-     * @param string $id
-     *
-     * @return Reference
-     */
-    protected function getResourceOwnerMapReference($id)
-    {
-        return new Reference('hwi_oauth.resource_ownermap.'.$id);
-    }
-
-    /**
      * {@inheritDoc}
      */
     protected function createAuthProvider(ContainerBuilder $container, $id, $config, $userProviderId)
     {
-        $providerId = 'glory_oauth.authentication.provider.oauth.'.$id;
-
-        $this->createResourceOwnerMap($container, $id, $config);
+        $providerId = 'glory_oauth.authentication.provider.oauth.' . $id;
 
         $container
-            ->setDefinition($providerId, new DefinitionDecorator('glory_oauth.authentication.provider.oauth'))
-            ->addArgument(new Reference($userProviderId))
-            ->addArgument($this->getResourceOwnerMapReference($id))
-            ->addArgument(new Reference('hwi_oauth.user_checker'))
+                ->setDefinition($providerId, new DefinitionDecorator('glory_oauth.authentication.provider.oauth'))
+                ->addArgument(new Reference($userProviderId))
+                ->addArgument(new Reference('glory_oauth.user_checker'))
         ;
 
         return $providerId;
@@ -108,12 +75,12 @@ class OAuthFactory extends AbstractFactory
     protected function createEntryPoint($container, $id, $config, $defaultEntryPoint)
     {
         //进入权限页面时的状态，调用form_login的操作，自动转到登录页
-        $entryPointId = 'security.authentication.form_entry_point.'.$id;
+        $entryPointId = 'security.authentication.form_entry_point.' . $id;
         $container
-            ->setDefinition($entryPointId, new DefinitionDecorator('security.authentication.form_entry_point'))
-            ->addArgument(new Reference('security.http_utils'))
-            ->addArgument($config['login_path'])
-            ->addArgument($config['use_forward'])
+                ->setDefinition($entryPointId, new DefinitionDecorator('security.authentication.form_entry_point'))
+                ->addArgument(new Reference('security.http_utils'))
+                ->addArgument($config['login_path'])
+                ->addArgument($config['use_forward'])
         ;
 
         return $entryPointId;
@@ -136,4 +103,5 @@ class OAuthFactory extends AbstractFactory
     {
         return 'glory_oauth.authentication.listener.oauth';
     }
+
 }
