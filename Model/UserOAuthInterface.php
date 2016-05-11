@@ -8,8 +8,13 @@
 
 namespace Glory\Bundle\OAuthBundle\Model;
 
+use Symfony\Component\Security\Core\User\UserInterface;
+
 /**
- *
+ * UserOAuthInterface
+ * 
+ * User Entity must implements this Interface
+ * 
  * @author ForeverGlory
  */
 interface UserOAuthInterface
