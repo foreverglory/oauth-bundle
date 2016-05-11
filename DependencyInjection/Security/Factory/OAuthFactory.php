@@ -63,6 +63,7 @@ class OAuthFactory extends AbstractFactory
                 ->setDefinition($providerId, new DefinitionDecorator('glory_oauth.authentication.provider.oauth'))
                 ->addArgument(new Reference($userProviderId))
                 ->addArgument(new Reference('glory_oauth.user_checker'))
+                ->addMethodCall('setOwnerMap', array(new Reference('glory_oauth.ownermap')))
         ;
 
         return $providerId;
@@ -92,6 +93,10 @@ class OAuthFactory extends AbstractFactory
     protected function createListener($container, $id, $config, $userProvider)
     {
         $listenerId = parent::createListener($container, $id, $config, $userProvider);
+        
+        $container
+                ->getDefinition($listenerId)
+                ->addMethodCall('setOwnerMap', array(new Reference('glory_oauth.ownermap')));
 
         return $listenerId;
     }
