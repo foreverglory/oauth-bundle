@@ -1,19 +1,31 @@
 <?php
 
+/*
+ * (c) ForeverGlory <http://foreverglory.me/>
+ * 
+ * For the full copyright and license information, please view the LICENSE
+ */
+
 namespace Glory\Bundle\OAuthBundle\DependencyInjection;
 
-use HWI\Bundle\OAuthBundle\DependencyInjection\HWIOAuthExtension;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
-use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use Glory\Bundle\OAuthBundle\GloryOAuthSupport;
 
-class GloryOAuthExtension extends HWIOAuthExtension // Extension
+/**
+ * GloryOAuthExtension
+ * 
+ * @see \HWI\Bundle\OAuthBundle\DependencyInjection\HWIOAuthExtension
+ * 
+ * @author ForeverGlory <foreverglory@qq.com>
+ */
+class GloryOAuthExtension extends Extension
 {
 
     /**
@@ -21,15 +33,73 @@ class GloryOAuthExtension extends HWIOAuthExtension // Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config/'));
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config/'));
         $loader->load('services.yml');
+        $loader->load('owners.yml');
 
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config/'));
-        $loader->load('oauth.xml');
-        $loader->load('templating.xml');
-        $loader->load('twig.xml');
-        $loader->load('http_client.xml');
-        //parent::load($configs, $container);
+        $processor = new Processor();
+        $config = $processor->processConfiguration(new Configuration(), $configs);
+
+        // setup http client settings
+        $httpClient = $container->getDefinition('glory_oauth.http_client');
+        $httpClient->addMethodCall('setVerifyPeer', array($config['http_client']['verify_peer']));
+        $httpClient->addMethodCall('setTimeout', array($config['http_client']['timeout']));
+        $httpClient->addMethodCall('setMaxRedirects', array($config['http_client']['max_redirects']));
+        $httpClient->addMethodCall('setIgnoreErrors', array($config['http_client']['ignore_errors']));
+        if (isset($config['http_client']['proxy']) && $config['http_client']['proxy'] != '') {
+            $httpClient->addMethodCall('setProxy', array($config['http_client']['proxy']));
+        }
+
+        // setup services for all configured resource owners
+        foreach ($config['owners'] as $name => $options) {
+            $this->createOwnerService($container, $name, $options);
+        }
+
+        // check of the connect controllers etc should be enabled
+        if (isset($config['connect'])) {
+            $container->setParameter('glory_oauth.connect', true);
+            $container->setParameter('glory_oauth.connect.auto', $config['connect']['auto']);
+            $container->setParameter('glory_oauth.connect.provider', $config['connect']['provider']);
+        } else {
+            $container->setParameter('glory_oauth.connect', false);
+        }
+    }
+
+    /**
+     * Creates a resource owner service.
+     *
+     * @example code
+     * $extension = $container->getExtension('glory_oauth');
+     * $extension->createOwnerService($container,$name,[]);
+     * 
+     * @param ContainerBuilder $container The container builder
+     * @param string           $name      The name of the service
+     * @param array            $options   Additional options of the service
+     */
+    public function createOwnerService(ContainerBuilder $container, $name, array $options)
+    {
+        // alias services
+        if (isset($options['service'])) {
+            // set the appropriate name for aliased services, compiler pass depends on it
+            $container->setAlias('glory_oauth.owner.' . $name, $options['service']);
+        } else {
+            $type = $options['type'];
+            unset($options['type']);
+
+            $definition = new DefinitionDecorator('glory_oauth.owner.abstract_' . GloryOAuthSupport::getOwnerType($type));
+            $definition->setClass("%glory_oauth.owner.$type.class%");
+            $container->setDefinition('glory_oauth.owner.' . $name, $definition);
+            $definition
+                    ->replaceArgument(2, $options)
+                    ->replaceArgument(3, $name)
+            ;
+        }
+        if ($container->hasParameter('glory_oauth.owners')) {
+            $owners = $container->getParameter('glory_oauth.owners');
+        } else {
+            $owners = [$name => $name];
+        }
+        $container->setParameter('glory_oauth.owners', $owners);
     }
 
     /**
