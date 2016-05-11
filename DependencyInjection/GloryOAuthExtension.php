@@ -78,28 +78,25 @@ class GloryOAuthExtension extends Extension
      */
     public function createOwnerService(ContainerBuilder $container, $name, array $options)
     {
+        $ownerId = 'glory_oauth.owner.' . $name;
         // alias services
         if (isset($options['service'])) {
             // set the appropriate name for aliased services, compiler pass depends on it
-            $container->setAlias('glory_oauth.owner.' . $name, $options['service']);
+            $container->setAlias($ownerId, $options['service']);
         } else {
             $type = $options['type'];
             unset($options['type']);
 
             $definition = new DefinitionDecorator('glory_oauth.owner.abstract_' . GloryOAuthSupport::getOwnerType($type));
             $definition->setClass("%glory_oauth.owner.$type.class%");
-            $container->setDefinition('glory_oauth.owner.' . $name, $definition);
+            $container->setDefinition($ownerId, $definition);
             $definition
                     ->replaceArgument(2, $options)
                     ->replaceArgument(3, $name)
             ;
         }
-        if ($container->hasParameter('glory_oauth.owners')) {
-            $owners = $container->getParameter('glory_oauth.owners');
-        } else {
-            $owners = [$name => $name];
-        }
-        $container->setParameter('glory_oauth.owners', $owners);
+        $container->getDefinition('glory_oauth.ownermap')
+                ->addMethodCall('addOwner', array(new Reference($ownerId)));
     }
 
     /**
