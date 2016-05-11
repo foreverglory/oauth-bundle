@@ -59,7 +59,7 @@ parameters:
 services:
     glory_oauth.owner.abstract:
         abstract: true
-        arguments: [@glory_oauth.http_client, @security.http_utils, []]
+        arguments: [@glory_oauth.http_client, @security.http_utils, [], ~]
     glory_oauth.owner.abstract_oauth2:
         class: %glory_oauth.owner.oauth2.class%
         parent: "glory_oauth.owner.abstract"
