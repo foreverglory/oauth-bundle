@@ -1,0 +1,70 @@
+parameters:
+    glory_oauth.owner.oauth1.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\GenericOAuth1ResourceOwner
+    glory_oauth.owner.oauth2.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\GenericOAuth2ResourceOwner
+    glory_oauth.owner.amazon.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\AmazonResourceOwner<
+    glory_oauth.owner.auth0.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\Auth0ResourceOwner
+    glory_oauth.owner.azure.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\AzureResourceOwner
+    glory_oauth.owner.bitbucket.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\BitbucketResourceOwner
+    glory_oauth.owner.bitly.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\BitlyResourceOwner
+    glory_oauth.owner.box.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\BoxResourceOwner
+    glory_oauth.owner.bufferapp.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\BufferAppResourceOwner
+    glory_oauth.owner.dailymotion.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\DailymotionResourceOwner
+    glory_oauth.owner.deviantart.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\DeviantartResourceOwner
+    glory_oauth.owner.deezer.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\DeezerResourceOwner
+    glory_oauth.owner.discogs.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\DiscogsResourceOwner
+    glory_oauth.owner.disqus.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\DisqusResourceOwner
+    glory_oauth.owner.dropbox.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\DropboxResourceOwner
+    glory_oauth.owner.eve_online.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\EveOnlineResourceOwner
+    glory_oauth.owner.eventbrite.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\EventbriteResourceOwner
+    glory_oauth.owner.facebook.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\FacebookResourceOwner
+    glory_oauth.owner.fiware.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\FiwareResourceOwner
+    glory_oauth.owner.flickr.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\FlickrResourceOwner
+    glory_oauth.owner.foursquare.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\FoursquareResourceOwner
+    glory_oauth.owner.github.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\GitHubResourceOwner
+    glory_oauth.owner.google.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\GoogleResourceOwner
+    glory_oauth.owner.youtube.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\YoutubeResourceOwner
+    glory_oauth.owner.hubic.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\HubicResourceOwner
+    glory_oauth.owner.instagram.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\InstagramResourceOwner
+    glory_oauth.owner.jira.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\JiraResourceOwner
+    glory_oauth.owner.linkedin.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\LinkedinResourceOwner
+    glory_oauth.owner.mailru.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\MailRuResourceOwner
+    glory_oauth.owner.paypal.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\PaypalResourceOwner
+    glory_oauth.owner.qq.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\QQResourceOwner
+    glory_oauth.owner.reddit.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\RedditResourceOwner
+    glory_oauth.owner.runkeeper.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\RunKeeperResourceOwner
+    glory_oauth.owner.salesforce.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\SalesforceResourceOwner
+    glory_oauth.owner.sensio_connect.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\SensioConnectResourceOwner
+    glory_oauth.owner.sina_weibo.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\SinaWeiboResourceOwner
+    glory_oauth.owner.slack.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\SlackResourceOwner
+    glory_oauth.owner.spotify.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\SpotifyResourceOwner
+    glory_oauth.owner.soundcloud.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\SoundcloudResourceOwner
+    glory_oauth.owner.stack_exchange.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\StackExchangeResourceOwner
+    glory_oauth.owner.stereomood.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\StereomoodResourceOwner
+    glory_oauth.owner.strava.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\StravaResourceOwner
+    glory_oauth.owner.toshl.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\ToshlResourceOwner
+    glory_oauth.owner.trakt.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\TraktResourceOwner
+    glory_oauth.owner.trello.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\TrelloResourceOwner
+    glory_oauth.owner.twitch.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\TwitchResourceOwner
+    glory_oauth.owner.twitter.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\TwitterResourceOwner
+    glory_oauth.owner.vkontakte.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\VkontakteResourceOwner
+    glory_oauth.owner.wechat.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\WechatResourceOwner
+    glory_oauth.owner.windows_live.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\WindowsLiveResourceOwner
+    glory_oauth.owner.wordpress.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\WordpressResourceOwner
+    glory_oauth.owner.xing.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\XingResourceOwner
+    glory_oauth.owner.yahoo.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\YahooResourceOwner
+    glory_oauth.owner.yandex.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\YandexResourceOwner
+    glory_oauth.owner.odnoklassniki.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\OdnoklassnikiResourceOwner
+    glory_oauth.owner.37signals.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\ThirtySevenSignalsResourceOwner
+
+services:
+    glory_oauth.owner.abstract:
+        abstract: true
+        arguments: [@glory_oauth.http_client, @security.http_utils, []]
+    glory_oauth.owner.abstract_oauth2:
+        class: %glory_oauth.owner.oauth2.class%
+        parent: "glory_oauth.owner.abstract"
+        arguments: [@glory_oauth.storage.session]
+    glory_oauth.owner.abstract_oauth1:
+        class: %glory_oauth.owner.oauth1.class%
+        parent: glory_oauth.owner.abstract
+        arguments: [@glory_oauth.storage.session]
