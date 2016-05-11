@@ -21,83 +21,83 @@ class OAuth
     /**
      * @var integer
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
      */
-    private $owner;
+    protected $owner;
 
     /**
      * @var string
      */
-    private $username;
+    protected $username;
 
     /**
      * @var integer
      */
-    private $nickname;
+    protected $nickname;
 
     /**
      * @var string
      */
-    private $firstname;
+    protected $firstname;
 
     /**
      * @var string
      */
-    private $lastname;
+    protected $lastname;
 
     /**
      * @var integer
      * 
      */
-    private $realname;
+    protected $realname;
 
     /**
      * @var integer
      */
-    private $email;
+    protected $email;
 
     /**
      * @var string
      */
-    private $avatar;
+    protected $avatar;
 
     /**
      * @var string
      */
-    private $accesstoken;
+    protected $accesstoken;
 
     /**
      * @var string
      */
-    private $refreshtoken;
+    protected $refreshtoken;
 
     /**
      * @var string
      */
-    private $tokensecret;
+    protected $tokensecret;
 
     /**
      * @var string
      */
-    private $expires;
+    protected $expires;
 
     /**
      * @var string
      */
-    private $created;
+    protected $created;
 
     /**
      * @var string
      */
-    private $updated;
+    protected $updated;
 
     /**
      * @var UserInterface
      */
-    private $user;
+    protected $user;
 
     public function __construct()
     {
