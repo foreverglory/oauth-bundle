@@ -33,6 +33,7 @@ class Configuration implements ConfigurationInterface
         $builder = new TreeBuilder();
 
         $rootNode = $builder->root('glory_oauth');
+        $this->addOAuthClassConfiguration($rootNode);
         $this->addOwnersConfiguration($rootNode);
         $this->addConnectConfiguration($rootNode);
         $this->addHttpClientConfiguration($rootNode);
