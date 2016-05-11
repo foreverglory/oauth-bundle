@@ -22,19 +22,30 @@ class OwnerMap implements ContainerAwareInterface
 
     use ContainerAwareTrait;
 
+    protected $owners = [];
+
     public function addOwner(OwnerInterface $owner)
     {
-        
+        $this->owners[$owner->getName()] = $owner;
     }
 
-    public function getOwner($type)
+    public function hasOwner($name)
     {
-        
+        return array_key_exists($name, $this->owners);
+    }
+
+    /**
+     * @param type $name
+     * @return OwnerInterface
+     */
+    public function getOwner($name)
+    {
+        return $this->hasOwner($name) ? $this->owners[$name] : null;
     }
 
     public function getOwners()
     {
-        
+        return $this->owners;
     }
 
 }
