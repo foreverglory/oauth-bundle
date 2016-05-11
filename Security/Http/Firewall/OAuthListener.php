@@ -40,14 +40,8 @@ class OAuthListener extends AbstractAuthenticationListener implements OwnerMapAw
         $owners = $this->ownerMap->getOwners();
         //对 check_path 的路径进行比对
         foreach ($owners as $owner) {
-            $service = $owner->getName();
-            $check_path = $this->options['check_path'];
-            if ('/' !== $check_path[0]) {
-                $path = $this->contarner->get('router')->generateUri($check_path, ['service' => $service]);
-            } else {
-                $path = str_replace($check_path, '{service}', $service);
-            }
-            if ($this->httpUtils->checkRequestPath($request, $path)) {
+            $checkPath = $this->getCheckPath($owner);
+            if ($this->httpUtils->checkRequestPath($request, $checkPath)) {
                 $this->owner = $owner;
                 return true;
             }
@@ -83,13 +77,25 @@ class OAuthListener extends AbstractAuthenticationListener implements OwnerMapAw
         $owner->isCsrfTokenValid($request->get('state'));
 
         $accessToken = $owner->getAccessToken(
-                $request, $this->httpUtils->createRequest($request, $checkPath)->getUri()
+                $request, $this->httpUtils->createRequest($request, $this->getCheckPath($owner))->getUri()
         );
 
         $token = new OAuthToken($accessToken);
         $token->setResourceOwnerName($owner->getName());
 
         return $this->authenticationManager->authenticate($token);
+    }
+
+    private function getCheckPath($owner)
+    {
+        $service = $owner->getName();
+        $check_path = $this->options['check_path'];
+        if ('/' !== $check_path[0]) {
+            $path = $this->contarner->get('router')->generateUri($check_path, ['service' => $service]);
+        } else {
+            $path = str_replace('{service}', $service, $check_path);
+        }
+        return $path;
     }
 
     /**
