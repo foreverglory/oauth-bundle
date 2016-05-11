@@ -27,3 +27,6 @@ services:
         public: false
     glory_oauth.user_checker:
         alias: security.user_checker
+    glory_oauth.oauth_provider.fos_user:
+        class: Glory\Bundle\OAuthBundle\OAuth\Provider\FOSUserProvider
+        arguments: [@service_container]
