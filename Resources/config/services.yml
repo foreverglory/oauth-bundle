@@ -17,3 +17,13 @@ services:
         calls:
             - [setContainer,[@service_container]]
         
+    glory_oauth.authentication.listener.oauth:
+        class: Glory\Bundle\OAuthBundle\Security\Http\Firewall\OAuthListener
+        parent: security.authentication.listener.abstract
+        abstract: true
+        public: false
+    glory_oauth.authentication.provider.oauth:
+        class: Glory\Bundle\OAuthBundle\Security\Core\Authentication\Provider\OAuthProvider
+        public: false
+    glory_oauth.user_checker:
+        alias: security.user_checker
