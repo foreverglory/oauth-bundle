@@ -24,6 +24,7 @@ class Configuration extends BaseConfiguration implements ConfigurationInterface
 
         $rootNode = $builder->root('glory_oauth');
         $this->addResourceOwnersConfiguration($rootNode);
+        $this->addConnectConfiguration($rootNode);
         return $builder;
     }
 
