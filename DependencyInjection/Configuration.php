@@ -40,6 +40,14 @@ class Configuration implements ConfigurationInterface
         return $builder;
     }
     
+    protected function addOAuthClassConfiguration(ArrayNodeDefinition $node){
+        $node
+            ->children()
+                ->scalarNode('oauth_class')->isRequired()->end()
+            ->end();
+    }
+
+
     protected function addOwnersConfiguration(ArrayNodeDefinition $node)
     {
         $node

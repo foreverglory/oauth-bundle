@@ -39,6 +39,8 @@ class GloryOAuthExtension extends Extension
 
         $processor = new Processor();
         $config = $processor->processConfiguration(new Configuration(), $configs);
+        
+        $container->setParameter('glory_oauth.oauth_class', $config['oauth_class']);
 
         // setup http client settings
         $httpClient = $container->getDefinition('glory_oauth.http_client');
