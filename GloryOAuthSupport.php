@@ -11,7 +11,7 @@ namespace Glory\Bundle\OAuthBundle;
 /**
  * Description of GloryOAuthSupport
  *
- * @author ForeverGlory
+ * @author ForeverGlory <foreverglory@qq.com>
  */
 class GloryOAuthSupport
 {
