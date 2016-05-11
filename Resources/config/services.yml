@@ -12,8 +12,6 @@ services:
         arguments: [@session]
     glory_oauth.ownermap:
         class: %glory_oauth.ownermap.class%
-        abstract: true
-        arguments: [@security.http_utils, ~, []]
         calls:
             - [setContainer,[@service_container]]
         
