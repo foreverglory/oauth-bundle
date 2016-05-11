@@ -15,7 +15,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *
  * @author ForeverGlory
  */
-class OAuth
+class OAuth implements OAuthInterface
 {
 
     /**
