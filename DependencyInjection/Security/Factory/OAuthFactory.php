@@ -76,9 +76,9 @@ class OAuthFactory extends AbstractFactory
     protected function createEntryPoint($container, $id, $config, $defaultEntryPoint)
     {
         //进入权限页面时的状态，调用form_login的操作，自动转到登录页
-        $entryPointId = 'security.authentication.form_entry_point.' . $id;
+        $entryPointId = 'glory_oauth.authentication.entry_point.oauth.' . $id;
         $container
-                ->setDefinition($entryPointId, new DefinitionDecorator('security.authentication.form_entry_point'))
+                ->setDefinition($entryPointId, new DefinitionDecorator('glory_oauth.authentication.entry_point.oauth'))
                 ->addArgument(new Reference('security.http_utils'))
                 ->addArgument($config['login_path'])
                 ->addArgument($config['use_forward'])

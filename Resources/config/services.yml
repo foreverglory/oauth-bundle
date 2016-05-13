@@ -20,6 +20,11 @@ services:
         parent: security.authentication.listener.abstract
         abstract: true
         public: false
+    glory_oauth.authentication.entry_point.oauth:
+        class: Glory\Bundle\OAuthBundle\Security\Http\EntryPoint\OAuthEntryPoint
+        public: false
+        abstract: true
+        arguments: [@http_kernel]
     glory_oauth.authentication.provider.oauth:
         class: Glory\Bundle\OAuthBundle\Security\Core\Authentication\Provider\OAuthProvider
         public: false
