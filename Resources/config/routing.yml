@@ -1,3 +1,7 @@
-glory_o_auth_homepage:
-    path:     /
-    defaults: { _controller: GloryOAuthBundle:Default:index }
+glory_oauth_connect:
+    path: /connect/{service}
+    defaults: { _controller: GloryOAuthBundle:OAuth:connect }
+
+glory_oauth_callback:
+    path: /connect/{service}/callback
+    defaults: { _controller: GloryOAuthBundle:OAuth:callback }
