@@ -61,7 +61,6 @@ class OAuthFactory extends AbstractFactory
 
         $container
                 ->setDefinition($providerId, new DefinitionDecorator('glory_oauth.authentication.provider.oauth'))
-                ->addArgument(new Reference($userProviderId))
                 ->addArgument(new Reference('glory_oauth.user_checker'))
                 ->addMethodCall('setOwnerMap', array(new Reference('glory_oauth.ownermap')))
         ;

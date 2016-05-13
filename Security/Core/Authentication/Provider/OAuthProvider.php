@@ -9,7 +9,7 @@
 namespace Glory\Bundle\OAuthBundle\Security\Core\Authentication\Provider;
 
 use HWI\Bundle\OAuthBundle\Security\Core\Authentication\Token\OAuthToken;
-use HWI\Bundle\OAuthBundle\Security\Core\Exception\OAuthAwareExceptionInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Glory\Bundle\OAuthBundle\OAuth\Provider\OAuthProviderInterface;
 use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthAwareUserProviderInterface;
 use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface;
@@ -19,7 +19,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
-use Symfony\Component\Security\Core\Exception\AuthenticationServiceException;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class OAuthProvider implements AuthenticationProviderInterface, OwnerMapAwareInterface
 {
@@ -27,22 +27,22 @@ class OAuthProvider implements AuthenticationProviderInterface, OwnerMapAwareInt
     use OwnerMapAwareTrait;
 
     /**
-     * @var OAuthProviderInterface
+     * @var ContainerInterface 
      */
-    private $userProvider;
+    protected $container;
 
     /**
      * @var UserCheckerInterface
      */
-    private $userChecker;
+    protected $userChecker;
 
     /**
-     * @param OAuthAwareUserProviderInterface $userProvider     User provider
+     * @param ContainerInterface $container ContainerInterface
      * @param UserCheckerInterface            $userChecker      User checker
      */
-    public function __construct(OAuthProviderInterface $userProvider, UserCheckerInterface $userChecker)
+    public function __construct(ContainerInterface $container, UserCheckerInterface $userChecker)
     {
-        $this->userProvider = $userProvider;
+        $this->container = $container;
         $this->userChecker = $userChecker;
     }
 
@@ -51,9 +51,7 @@ class OAuthProvider implements AuthenticationProviderInterface, OwnerMapAwareInt
      */
     public function supports(TokenInterface $token)
     {
-        return
-                $token instanceof OAuthToken && $this->ownerMap->hasOwner($token->getResourceOwnerName())
-        ;
+        return $token instanceof OAuthToken && $this->ownerMap->hasOwner($token->getResourceOwnerName());
     }
 
     /**
@@ -61,26 +59,27 @@ class OAuthProvider implements AuthenticationProviderInterface, OwnerMapAwareInt
      */
     public function authenticate(TokenInterface $token)
     {
-        if (!$this->supports($token)) {
-            return;
+        $ownerName = $token->getResourceOwnerName();
+        $oauthManager = $this->container->get('glory_oauth.oauth_manager');
+        $oauthUtil = $this->container->get('glory_oauth.util.token2oauth');
+        $oauthUtil->handle($token);
+        if (!$oauthUtil->hasOAuth()) {
+            //第一次OAuth,注册流程
         }
+        $oauth = $oauthUtil->getOAuth();
+        $oauthManager->updateOAuth($oauth);
 
-        /* @var OAuthToken $token */
-        $owner = $this->ownerMap->getOwner($token->getResourceOwnerName());
-
-        $userResponse = $owner->getUserInformation($token->getRawToken());
-
-        try {
-            $user = $this->userProvider->loadUserByOAuthUserResponse($userResponse);
-        } catch (OAuthAwareExceptionInterface $e) {
-            $e->setToken($token);
-            $e->setResourceOwnerName($token->getResourceOwnerName());
-
-            throw $e;
+        $user = $oauth->getUser();
+        //oauth class 中是否关联,未关联,跳转到注册绑定页
+        if (!$user) {
+            $key = time();
+            $this->container->get('session')->set('glory_oauth.connect.oauth.' . $key, [$oauth->getOwner(), $oauth->getUsername()]);
+            $url = $this->container->get('router')->generate('glory_oauth_register', ['key' => $key]);
+            return new RedirectResponse($url);
         }
 
         if (!$user instanceof UserInterface) {
-            throw new AuthenticationServiceException('loadUserByOAuthUserResponse() must return a UserInterface.');
+            throw new BadCredentialsException('');
         }
 
         try {
@@ -95,7 +94,7 @@ class OAuthProvider implements AuthenticationProviderInterface, OwnerMapAwareInt
         }
 
         $token = new OAuthToken($token->getRawToken(), $user->getRoles());
-        $token->setResourceOwnerName($owner->getName());
+        $token->setResourceOwnerName($ownerName);
         $token->setUser($user);
         $token->setAuthenticated(true);
 
