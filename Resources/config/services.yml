@@ -28,8 +28,13 @@ services:
     glory_oauth.authentication.provider.oauth:
         class: Glory\Bundle\OAuthBundle\Security\Core\Authentication\Provider\OAuthProvider
         public: false
+        arguments: [@service_container]
     glory_oauth.user_checker:
         alias: security.user_checker
     glory_oauth.oauth_provider.fos_user:
         class: Glory\Bundle\OAuthBundle\OAuth\Provider\FOSUserProvider
+        arguments: [@service_container]
+
+    glory_oauth.util.token2oauth:
+        class: Glory\Bundle\OAuthBundle\Util\Token2OAuth
         arguments: [@service_container]
