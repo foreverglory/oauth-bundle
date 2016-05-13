@@ -462,7 +462,7 @@ class OAuth implements OAuthInterface
      *
      * @return OAuth
      */
-    public function setUser(UserInterface $user = null)
+    public function setUser(UserInterface $user)
     {
         $this->user = $user;
         return $this;
