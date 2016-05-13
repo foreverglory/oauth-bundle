@@ -5,3 +5,15 @@ glory_oauth_connect:
 glory_oauth_callback:
     path: /connect/{service}/callback
     defaults: { _controller: GloryOAuthBundle:OAuth:callback }
+
+glory_oauth_register:
+    path: /connect/register/{key}
+    defaults: { _controller: GloryOAuthBundle:Connect:register }
+
+glory_oauth_login:
+    path: /connect/login/{key}
+    defaults: { _controller: GloryOAuthBundle:Connect:login }
+
+glory_oauth_success:
+    path: /connect/success
+    defaults: { _controller: GloryOAuthBundle:Connect:success }
