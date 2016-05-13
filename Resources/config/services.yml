@@ -4,6 +4,10 @@ parameters:
     glory_oauth.ownermap.class: Glory\Bundle\OAuthBundle\OAuth\OwnerMap
 
 services:
+    glory_oauth.oauth_manager:
+        class: Glory\Bundle\OAuthBundle\Model\OAuthManager
+        arguments: [@service_container]
+        
     glory_oauth.http_client:
         class: %glory_oauth.http_client.class%
     glory_oauth.storage.session:
