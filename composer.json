@@ -17,6 +17,8 @@
     },
     "minimum-stability": "dev",
     "require": {
+        "symfony/symfony": "~2.3",
+        "hwi/oauth-bundle": "~0.4"
     },
     "require-dev": {
     }
