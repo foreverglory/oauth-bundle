@@ -1,9 +1,12 @@
 <?php
 
-/**
+/*
+ * This file is part of the current project.
+ * 
  * (c) ForeverGlory <http://foreverglory.me/>
  * 
  * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace Glory\Bundle\OAuthBundle\Model;
@@ -11,29 +14,12 @@ namespace Glory\Bundle\OAuthBundle\Model;
 /**
  * Description of UserOAuth
  *
- * @author ForeverGlory
+ * @author ForeverGlory <foreverglory@qq.com>
  */
-class UserOAuth implements UserOAuthInterface
+class UserOAuth
 {
 
-    public function hasOAuth($owner)
-    {
-        
-    }
+    protected $oauths;
 
-    public function addOAuth($oauth)
-    {
-        
-    }
-
-    public function removeOAuth($oauth)
-    {
-        
-    }
-
-    public function getOAuths()
-    {
-        
-    }
-
+    use UserOAuthTrait;
 }
