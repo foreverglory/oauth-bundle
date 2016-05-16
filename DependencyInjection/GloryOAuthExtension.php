@@ -39,7 +39,7 @@ class GloryOAuthExtension extends Extension
 
         $processor = new Processor();
         $config = $processor->processConfiguration(new Configuration(), $configs);
-        
+
         $container->setParameter('glory_oauth.oauth_class', $config['oauth_class']);
 
         // setup http client settings
@@ -61,7 +61,7 @@ class GloryOAuthExtension extends Extension
         if (isset($config['connect'])) {
             $container->setParameter('glory_oauth.connect', true);
             $container->setParameter('glory_oauth.connect.auto', $config['connect']['auto']);
-            $container->setParameter('glory_oauth.connect.provider', $config['connect']['provider']);
+            $container->setAlias('glory_oauth.connect', $config['connect']['provider']);
         } else {
             $container->setParameter('glory_oauth.connect', false);
         }
