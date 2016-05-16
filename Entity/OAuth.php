@@ -10,8 +10,7 @@ namespace Glory\Bundle\OAuthBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Glory\Bundle\OAuthBundle\Model\OAuth as BaseOAuth;
-use Glory\Bundle\OAuthBundle\Model\UserOAuthInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\UserInterface as User;
 
 /**
  * OAuth
@@ -86,7 +85,7 @@ class OAuth extends BaseOAuth
      *
      * @ORM\Column(name="avatar", type="string", length=255, nullable=true)
      */
-    private $avatar;
+    protected $avatar;
 
     /**
      * @var string
