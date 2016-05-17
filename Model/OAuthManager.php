@@ -34,8 +34,8 @@ class OAuthManager
 
     public function setOAuthClass($class)
     {
-        if (!$class instanceof OAuthInterface) {
-            throw new \Exception(sprintf('oauth class must implements %s', get_class(OAuthInterface)));
+        if (!new $class() instanceof OAuthInterface) {
+            throw new \Exception(sprintf('oauth class must implements %s', OAuthInterface::class));
         }
         $this->oauthClass = $class;
         return $this;
@@ -76,7 +76,7 @@ class OAuthManager
             'username' => $username,
             'owner' => $owner
         ];
-        return $this->findOAuthBy($criteria);
+        return $this->findOAuth($criteria);
     }
 
     /**
@@ -85,7 +85,7 @@ class OAuthManager
      * @param type $criteria
      * @return OAuthInterface
      */
-    public function findOAuthBy($criteria)
+    public function findOAuth($criteria)
     {
         $repository = $this->getDoctrine()->getRepository($this->getOAuthClass());
         return $repository->findOneBy($criteria);
