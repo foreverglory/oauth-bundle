@@ -107,6 +107,12 @@ class OAuth implements OAuthInterface
         
     }
 
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+
     /**
      * Get id
      *

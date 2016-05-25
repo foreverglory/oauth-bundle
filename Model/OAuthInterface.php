@@ -22,6 +22,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 interface OAuthInterface
 {
 
+    public function setId($id);
+
     public function getId();
 
     public function setOwner($owner);
