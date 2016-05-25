@@ -1,9 +1,12 @@
 <?php
 
-/**
+/*
+ * This file is part of the current project.
+ * 
  * (c) ForeverGlory <http://foreverglory.me/>
  * 
  * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace Glory\Bundle\OAuthBundle;
@@ -29,7 +32,7 @@ class GloryOAuthBundle extends Bundle
     {
         parent::build($container);
 
-        /** @var $extension SecurityExtension */
+        /** @var SecurityExtension */
         $extension = $container->getExtension('security');
         $extension->addSecurityListenerFactory(new OAuthFactory());
     }
