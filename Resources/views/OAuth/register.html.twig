@@ -1,0 +1,12 @@
+{% extends "GloryUserBundle::layout.html.twig" %}
+
+{% block content %}
+    {% block glory_user_oauth %}
+        <div>{{ oauth.owner }}创建新帐户</div>
+        <form action="{{ path("glory_user_oauth_register",{key:key}) }}" method="post">
+            {{ form_widget(form) }}
+            <input type="submit" id="submit" name="submit" value="创建新用户" />
+        </form>
+        <a href="{{ path('glory_user_oauth_login',{key:key})}}">绑定老用户</a>
+    {% endblock%}
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "GloryUserBundle::layout.html.twig" %}
+
+{% block content %}
+    {% block glory_user_oauth %}
+        <div>{{ oauth.owner }}绑定已有帐户</div>
+        <form action="{{ path("glory_user_oauth_login",{key:key}) }}" method="post">
+            <p>
+                <label>用户名</label>
+                <input type="text" name="username" value="{{username}}"/>
+            </p>
+            <p>
+                <label>密码</label>
+                <input type="password" name="password" value="" />
+            </p>
+            <p>
+                <input type="submit" id="submit" name="submit" value="确认绑定" />
+            </p>
+        </form>
+        <a href="{{ path('glory_user_oauth_register',{key:key})}}">绑定新用户</a>
+    {% endblock%}
+{% endblock %}
