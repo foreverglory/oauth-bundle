@@ -47,7 +47,8 @@ parameters:
     glory_oauth.owner.twitch.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\TwitchResourceOwner
     glory_oauth.owner.twitter.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\TwitterResourceOwner
     glory_oauth.owner.vkontakte.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\VkontakteResourceOwner
-    glory_oauth.owner.wechat.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\WechatResourceOwner
+    #glory_oauth.owner.wechat.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\WechatResourceOwner
+    glory_oauth.owner.wechat.class: Glory\Bundle\OAuthBundle\OAuth\Owner\WechatOwner
     glory_oauth.owner.windows_live.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\WindowsLiveResourceOwner
     glory_oauth.owner.wordpress.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\WordpressResourceOwner
     glory_oauth.owner.xing.class: HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\XingResourceOwner
