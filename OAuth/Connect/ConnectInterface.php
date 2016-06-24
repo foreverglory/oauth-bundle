@@ -22,6 +22,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 interface ConnectInterface
 {
 
+    public function getConnect(OAuthInterface $oauth);
+
     public function connect(OAuthInterface $oauth, UserInterface $user = null);
 
     public function unConnect(OAuthInterface $oauth);

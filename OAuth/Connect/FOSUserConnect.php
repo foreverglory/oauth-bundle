@@ -14,7 +14,7 @@ namespace Glory\Bundle\OAuthBundle\OAuth\Connect;
 use Glory\Bundle\OAuthBundle\Model\OAuthManager;
 use FOS\UserBundle\Model\UserManagerInterface;
 use Glory\Bundle\OAuthBundle\Model\OAuthInterface;
-use FOS\UserBundle\Model\UserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Description of FOSUserConnect
@@ -33,21 +33,27 @@ class FOSUserConnect implements ConnectInterface
         $this->userManager = $userManager;
     }
 
+    public function getConnect(OAuthInterface $oauth)
+    {
+        return $oauth->getUser();
+    }
+
     public function connect(OAuthInterface $oauth, UserInterface $user = null)
     {
         if (!$user) {
             $user = $this->userManager->createUser();
             $user->setUsername($oauth->getNickname());
             $user->setEmail($this->generateEmail($oauth));
+            $user->setEnabled(true);
+            $this->userManager->updateUser($user);
         } else {
             if ($user->hasOAuth($oauth->getOwner())) {
                 new \LogicException(sprintf('User %s is already connect %s oauth', $user->getUsername(), $oauth->getOwner()));
             }
         }
-        $user->addOAuth($oauth);
-        $this->userManager->updateUser($user);
         $oauth->setUser($user);
         $this->oauthManager->updateOAuth($oauth);
+        return $user;
     }
 
     public function unConnect(OAuthInterface $oauth)

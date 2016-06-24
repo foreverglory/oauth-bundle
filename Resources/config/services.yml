@@ -48,3 +48,12 @@ services:
         arguments: [@glory_oauth.ownermap]
         tags:
             - { name: twig.extension }
+
+    glory_oauth.connect.only:
+        class: Glory\Bundle\OAuthBundle\OAuth\Connect\OnlyConnect
+    glory_oauth.connect.fos_user:
+        class: Glory\Bundle\OAuthBundle\OAuth\Connect\FOSUserConnect
+        arguments: ['@glory_oauth.oauth_manager', '@fos_user.user_manager']
+    glory_oauth.connect.glory_user:
+        class: Glory\Bundle\OAuthBundle\OAuth\Connect\GloryUserConnect
+        arguments: ['@glory_oauth.oauth_manager', '@fos_user.user_manager']
