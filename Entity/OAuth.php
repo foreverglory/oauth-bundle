@@ -13,12 +13,13 @@ namespace Glory\Bundle\OAuthBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Glory\Bundle\OAuthBundle\Model\OAuth as BaseOAuth;
-use Symfony\Component\Security\Core\User\UserInterface as User;
 
 /**
  * OAuth
  *
  * @ORM\MappedSuperclass
+ * @ORM\Entity
+ * @ORM\Table("user_oauth")
  * 
  * @author ForeverGlory <foreverglory@qq.com>
  */
@@ -133,7 +134,7 @@ class OAuth extends BaseOAuth
     protected $updated;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="oauths")
+     * @ORM\ManyToOne(targetEntity="Symfony\Component\Security\Core\User\UserInterface", inversedBy="oauths")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     protected $user;
