@@ -47,7 +47,7 @@ class Configuration implements ConfigurationInterface
     protected function addOAuthClassConfiguration(ArrayNodeDefinition $node){
         $node
             ->children()
-                ->scalarNode('oauth_class')->isRequired()->end()
+                ->scalarNode('oauth_class')->defaultValue('Glory\Bundle\OAuthBundle\Entity\OAuth')->end()
             ->end();
     }
 
@@ -58,7 +58,7 @@ class Configuration implements ConfigurationInterface
             ->fixXmlConfig('owner')
             ->children()
                 ->arrayNode('owners')
-                    ->isRequired()
+                    //->isRequired()
                     ->useAttributeAsKey('name')
                     ->prototype('array')
                         ->ignoreExtraKeys()
@@ -274,12 +274,8 @@ class Configuration implements ConfigurationInterface
     {
         $node
             ->children()
-                ->arrayNode('connect')
-                    ->children()
-                        ->booleanNode('auto')->defaultFalse()->end()
-                        ->scalarNode('provider')->cannotBeEmpty()->end()
-                    ->end()
-                ->end()
+                ->scalarNode('connect')->defaultValue('glory_oauth.connect.only')->end()
+                ->booleanNode('auto_register')->defaultTrue()->end()
             ->end()
         ;
     }

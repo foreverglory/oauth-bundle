@@ -43,7 +43,9 @@ class GloryOAuthExtension extends Extension
         $processor = new Processor();
         $config = $processor->processConfiguration(new Configuration(), $configs);
 
-        $container->setParameter('glory_oauth.oauth_class', $config['oauth_class']);
+        $container
+                ->getDefinition('glory_oauth.oauth_manager')
+                ->addMethodCall('setOAuthClass', array($config['oauth_class']));
 
         // setup http client settings
         $httpClient = $container->getDefinition('glory_oauth.http_client');
@@ -61,13 +63,9 @@ class GloryOAuthExtension extends Extension
         }
 
         // check of the connect controllers etc should be enabled
-        if (isset($config['connect'])) {
-            $container->setParameter('glory_oauth.connect', true);
-            $container->setParameter('glory_oauth.connect.auto', $config['connect']['auto']);
-            $container->setAlias('glory_oauth.connect', $config['connect']['provider']);
-        } else {
-            $container->setParameter('glory_oauth.connect', false);
-        }
+
+        $container->setParameter('glory_oauth.auto_register', $config['auto_register']);
+        $container->setAlias('glory_oauth.connect', $config['connect']);
     }
 
     /**
