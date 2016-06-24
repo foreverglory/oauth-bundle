@@ -34,9 +34,6 @@ class OAuthManager
 
     public function setOAuthClass($class)
     {
-        if (!new $class() instanceof OAuthInterface) {
-            throw new \Exception(sprintf('oauth class must implements %s', OAuthInterface::class));
-        }
         $this->oauthClass = $class;
         return $this;
     }
@@ -48,7 +45,7 @@ class OAuthManager
      */
     public function getOAuthClass()
     {
-        $this->oauthClass;
+        return $this->oauthClass;
     }
 
     /**
