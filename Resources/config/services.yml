@@ -41,7 +41,7 @@ services:
 
     glory_oauth.util.token2oauth:
         class: Glory\Bundle\OAuthBundle\Util\Token2OAuth
-        arguments: [@service_container]
+        arguments: ['@glory_oauth.ownermap', '@glory_oauth.oauth_manager']
 
     glory_oauth.twig.owner_extension:
         class: Glory\Bundle\OAuthBundle\Twig\Extension\OwnerExtension

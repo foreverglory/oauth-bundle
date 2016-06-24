@@ -11,9 +11,11 @@
 
 namespace Glory\Bundle\OAuthBundle\Util;
 
-use Glory\Bundle\OAuthBundle\Model\OAuthInterface;
+use Glory\Bundle\OAuthBundle\OAuth\OwnerMap;
+use Glory\Bundle\OAuthBundle\Model\OAuthManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use HWI\Bundle\OAuthBundle\Security\Core\Authentication\Token\OAuthToken;
+use Glory\Bundle\OAuthBundle\Model\OAuthInterface;
+use Glory\Bundle\OAuthBundle\Security\Core\Authentication\Token\OAuthToken;
 
 /**
  * Description of Token to OAuth
@@ -23,44 +25,38 @@ use HWI\Bundle\OAuthBundle\Security\Core\Authentication\Token\OAuthToken;
 class Token2OAuth
 {
 
-    protected $container;
-    protected $hasOauth = false;
-    protected $oauth;
+    protected $ownerMap;
+    protected $oauthManager;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(OwnerMap $ownerMap, OAuthManager $oauthManager)
     {
-        $this->container = $container;
+        $this->ownerMap = $ownerMap;
+        $this->oauthManager = $oauthManager;
     }
 
-    public function handle(OAuthToken $token)
+    public function generate(OAuthToken $token)
     {
-        $ownerMap = $this->container->get('glory_oauth.ownerMap');
-        $oauthManager = $this->container->get('glory_oauth.oauth_manager');
-        $owner = $ownerMap->getOwner($token->getResourceOwnerName());
-        $userInformation = $owner->getUserInformation($token->getRawToken());
-        $oauth = $oauthManager->findOAuthBy(['' => $userInformation['']]);
-        if (!$this->hasOauth = (boolean) $oauth) {
-            $oauth = $oauthManager->createOAuth();
+        $owner = $this->ownerMap->getOwner($token->getOwnerName());
+        $response = $owner->getUserInformation($token->getRawToken());
+        $oauth = $this->oauthManager->getOAuth($response->getUsername(), $owner->getName());
+        if (!$oauth) {
+            $oauth = $this->oauthManager->createOAuth();
+            $oauth->setCreated();
+            $oauth->setOwner($owner->getName());
+            $oauth->setUsername($response->getUsername());
         }
-        $this->oauth = $this->bindOAuth($oauth, $userInformation);
-    }
-
-    public function bindOAuth(OAuthInterface $oauth, $userInfomation)
-    {
+        $oauth->setNickname($response->getNickname());
+        $oauth->setFirstname($response->getFirstName());
+        $oauth->setLastname($response->getLastName());
+        $oauth->setRealname($response->getRealName());
+        $oauth->setEmail($response->getEmail());
+        $oauth->setAvatar($response->getProfilePicture());
+        $oauth->setAccesstoken($response->getAccessToken());
+        $oauth->setRefreshtoken($response->getRefreshToken());
+        $oauth->setTokensecret($response->getTokenSecret());
+        $oauth->setExpires($response->getExpiresIn());
+        $this->oauthManager->updateOAuth($oauth);
         return $oauth;
-    }
-
-    public function hasOAuth()
-    {
-        return $this->hasOauth;
-    }
-
-    /**
-     * @return OAuthInterface
-     */
-    public function getOAuth()
-    {
-        return $this->oauth;
     }
 
 }
