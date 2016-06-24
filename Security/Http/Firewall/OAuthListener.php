@@ -14,7 +14,8 @@ namespace Glory\Bundle\OAuthBundle\Security\Http\Firewall;
 use Glory\Bundle\OAuthBundle\OAuth\OwnerMapAwareInterface;
 use Glory\Bundle\OAuthBundle\OAuth\OwnerMapAwareTrait;
 use HWI\Bundle\OAuthBundle\OAuth\ResourceOwnerInterface;
-use HWI\Bundle\OAuthBundle\Security\Core\Authentication\Token\OAuthToken;
+use Glory\Bundle\OAuthBundle\OAuth\OwnerInterface;
+use Glory\Bundle\OAuthBundle\Security\Core\Authentication\Token\OAuthToken;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -84,7 +85,7 @@ class OAuthListener extends AbstractAuthenticationListener implements OwnerMapAw
         );
 
         $token = new OAuthToken($accessToken);
-        $token->setResourceOwnerName($owner->getName());
+        $token->setOwnerName($owner->getName());
 
         return $this->authenticationManager->authenticate($token);
     }

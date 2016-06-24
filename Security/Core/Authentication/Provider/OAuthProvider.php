@@ -11,7 +11,7 @@
 
 namespace Glory\Bundle\OAuthBundle\Security\Core\Authentication\Provider;
 
-use HWI\Bundle\OAuthBundle\Security\Core\Authentication\Token\OAuthToken;
+use Glory\Bundle\OAuthBundle\Security\Core\Authentication\Token\OAuthToken;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Glory\Bundle\OAuthBundle\OAuth\Provider\OAuthProviderInterface;
 use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthAwareUserProviderInterface;
@@ -63,22 +63,19 @@ class OAuthProvider implements AuthenticationProviderInterface, OwnerMapAwareInt
     public function authenticate(TokenInterface $token)
     {
         $ownerName = $token->getResourceOwnerName();
-        $oauthManager = $this->container->get('glory_oauth.oauth_manager');
         $oauthUtil = $this->container->get('glory_oauth.util.token2oauth');
-        $oauthUtil->handle($token);
-        if (!$oauthUtil->hasOAuth()) {
-            //第一次OAuth,注册流程
-        }
-        $oauth = $oauthUtil->getOAuth();
-        $oauthManager->updateOAuth($oauth);
+        $oauth = $oauthUtil->generate($token);
 
-        $user = $oauth->getUser();
-        //oauth class 中是否关联,未关联,跳转到注册绑定页
-        if (!$user) {
-            $key = time();
-            $this->container->get('session')->set('glory_oauth.connect.oauth.' . $key, [$oauth->getOwner(), $oauth->getUsername()]);
-            $url = $this->container->get('router')->generate('glory_oauth_register', ['key' => $key]);
-            return new RedirectResponse($url);
+        $connect = $this->container->get('glory_oauth.connect');
+        if (!$user = $connect->getConnect($oauth)) {
+            if ($this->container->getParameter('glory_oauth.auto_register')) {
+                $user = $connect->connect($oauth);
+            } else {
+                $key = time();
+                $this->container->get('session')->set('glory_oauth.connect.oauth.' . $key, [$oauth->getOwner(), $oauth->getUsername()]);
+                $url = $this->container->get('router')->generate('glory_oauth_register', ['key' => $key]);
+                return new RedirectResponse($url);
+            }
         }
 
         if (!$user instanceof UserInterface) {
@@ -97,7 +94,7 @@ class OAuthProvider implements AuthenticationProviderInterface, OwnerMapAwareInt
         }
 
         $token = new OAuthToken($token->getRawToken(), $user->getRoles());
-        $token->setResourceOwnerName($ownerName);
+        $token->setOwnerName($ownerName);
         $token->setUser($user);
         $token->setAuthenticated(true);
 
