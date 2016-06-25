@@ -12,6 +12,8 @@
 namespace Glory\Bundle\OAuthBundle\OAuth\Owner;
 
 use HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\WechatResourceOwner;
+use Symfony\Component\HttpFoundation\Request;
+use Glory\Bundle\OAuthBundle\Security\Core\Authentication\Token\OAuthToken;
 
 /**
  * Description of WechatOwner
