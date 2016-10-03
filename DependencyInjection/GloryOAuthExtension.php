@@ -99,7 +99,7 @@ class GloryOAuthExtension extends Extension
             ;
         }
         $container->getDefinition('glory_oauth.ownermap')
-                ->addMethodCall('addOwner', array(new Reference($ownerId)));
+                ->addMethodCall('addOwner', array($name, new Reference($ownerId)));
     }
 
     /**

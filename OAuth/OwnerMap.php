@@ -27,9 +27,9 @@ class OwnerMap implements ContainerAwareInterface
 
     protected $owners = [];
 
-    public function addOwner(OwnerInterface $owner)
+    public function addOwner($name, OwnerInterface $owner)
     {
-        $this->owners[$owner->getName()] = $owner;
+        $this->owners[$name] = $owner;
     }
 
     public function hasOwner($name)
