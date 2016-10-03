@@ -42,6 +42,7 @@ class FOSUserConnect implements ConnectInterface
     {
         if (!$user) {
             $user = $this->userManager->createUser();
+            $user->setUsernameCanonical($oauth->getUsername());
             $user->setUsername($oauth->getNickname());
             $user->setEmail($this->generateEmail($oauth));
             $user->setEnabled(true);
