@@ -32,19 +32,23 @@ class OAuthController extends Controller
 
         // Check for a return path and store it before redirect
         if ($request->hasSession()) {
-            $targetUrl = $request->get('target');
-            $targetUrl = $targetUrl? : $request->headers->get('Referer');
+            $targetUrl = $request->get('target') ?: $request->headers->get('Referer');
             if ($targetUrl) {
                 //todo: 这里还有一个可能
-                /*if(useForward){
-                    
-                }*/
-                $sessionKey = 'glory_oauth.target_path';
+                /* if(useForward){
+
+                  } */
+                $sessionKey = '_security.oauth.target_path';
                 $request->getSession()->set($sessionKey, $targetUrl);
             }
         }
 
         return $this->redirect($authorizationUrl);
+    }
+
+    public function unBindAction(Request $request, $service)
+    {
+        
     }
 
     public function callbackAction(Request $request)
